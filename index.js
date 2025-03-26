@@ -46,6 +46,11 @@ async function run() {
             res.send(result);
         });
 
+        app.get('/todos', async (req, res) => {
+            const result = await todosCollection.find().toArray();
+            res.send(result);
+        });
+
 
 
     } finally {
