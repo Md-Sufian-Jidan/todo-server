@@ -1,5 +1,5 @@
 const express = require('express');
-const { MongoClient, ServerApiVersion } = require('mongodb');
+const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 const cors = require('cors');
 require('dotenv').config();
 const app = express();
@@ -49,6 +49,45 @@ async function run() {
         app.get('/todos', async (req, res) => {
             const result = await todosCollection.find().toArray();
             res.send(result);
+        });
+
+        app.get('/todo/:id', async (req, res) => {
+            const id = req.params.id;
+            const query = { _id: new ObjectId(id) };
+            console.log(query);
+            const result = await todosCollection.findOne(query);
+            res.send(result);
+        });
+
+        app.patch('/todo/:id', async (req, res) => {
+            const updateTodo = req.body;
+
+            const id = req.params.id;
+            const query = { _id: new ObjectId(id) };
+            const update = {
+                $set: {
+                    name: updateTodo?.name,
+                    email: updateTodo?.email,
+                    uid: updateTodo?.uid,
+                    title: updateTodo?.title,
+                    description: updateTodo?.description,
+                    category: updateTodo?.category,
+                    completed: updateTodo?.completed,
+                    createdAt: updateTodo?.createdAt,
+                    updatedAt: updateTodo?.updatedAt,
+                },
+            };
+            const result = await todosCollection.updateOne(query, update);
+            res.send(result);
+            console.log(query, updateTodo, result);
+        });
+
+        app.delete('/todo/:id', async (req, res) => {
+            const id = req.params.id;
+            const query = { _id: new ObjectId(id) };
+            console.log(query);
+            // const result = await todosCollection.deleteOne(query);
+            // res.send(result);
         });
 
 
