@@ -79,15 +79,14 @@ async function run() {
             };
             const result = await todosCollection.updateOne(query, update);
             res.send(result);
-            console.log(query, updateTodo, result);
         });
 
         app.delete('/todo/:id', async (req, res) => {
             const id = req.params.id;
             const query = { _id: new ObjectId(id) };
-            console.log(query);
-            // const result = await todosCollection.deleteOne(query);
-            // res.send(result);
+            const result = await todosCollection.deleteOne(query);
+            res.send(result);
+            console.log(result);
         });
 
 
