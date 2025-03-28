@@ -110,6 +110,13 @@ async function run() {
             res.send(result);
         });
 
+        // get wishlist
+        app.get('/wishlist', async (req, res) => {
+            const query = { category: 'wishlist' };
+            const result = await todosCollection.find(query).toArray();
+            res.send(result);
+        });
+
 
 
     } finally {
