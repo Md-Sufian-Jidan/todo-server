@@ -82,12 +82,13 @@ async function run() {
         });
 
         app.patch('/done-todo/:id', async (req, res) => {
-            // const body = req.body;
+            const completedAt = new Date().toISOString()
             const id = req.params.id;
             const query = { _id: new ObjectId(id) };
             const updateTodo = {
                 $set: {
-                    completed: true
+                    completed: true,
+                    completedAt
                 }
             };
             const result = await todosCollection.updateOne(query, updateTodo);
