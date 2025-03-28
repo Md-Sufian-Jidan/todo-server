@@ -81,12 +81,32 @@ async function run() {
             res.send(result);
         });
 
+        app.patch('/done-todo/:id', async (req, res) => {
+            // const body = req.body;
+            const id = req.params.id;
+            const query = { _id: new ObjectId(id) };
+            const updateTodo = {
+                $set: {
+                    completed: true
+                }
+            };
+            const result = await todosCollection.updateOne(query, updateTodo);
+            res.send(result);
+        });
+
         app.delete('/todo/:id', async (req, res) => {
             const id = req.params.id;
             const query = { _id: new ObjectId(id) };
             const result = await todosCollection.deleteOne(query);
             res.send(result);
             console.log(result);
+        });
+
+        // get done todo 
+        app.get('/done-todo', async (req, res) => {
+            const query = { completed: true }
+            const result = await todosCollection.find(query).toArray();
+            res.send(result);
         });
 
 
