@@ -117,6 +117,12 @@ async function run() {
             res.send(result);
         });
 
+        app.get('/bucketList', async (req, res) => {
+            const query = { category: 'bucketlist' };
+            const result = await todosCollection.find(query).toArray();
+            res.send(result);
+        });
+
 
 
     } finally {
