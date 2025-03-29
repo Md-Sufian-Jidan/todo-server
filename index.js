@@ -5,8 +5,7 @@ require('dotenv').config();
 const app = express();
 const port = process.env.port || 5000;
 
-//middleware
-app.use(cors({
+const options = {
     origin: [
         'http://localhost:5173',
         'http://localhost:5174',
@@ -14,7 +13,10 @@ app.use(cors({
         'https://jj-tourism-server-4iwozowe3-md-sufian-jidans-projects.vercel.app',
     ],
     credentials: true
-}));
+};
+
+//middleware
+app.use(cors(options));
 app.use(express.json());
 
 
@@ -122,8 +124,6 @@ async function run() {
             const result = await todosCollection.find(query).toArray();
             res.send(result);
         });
-
-
 
     } finally {
         // Ensures that the client will close when you finish/error
